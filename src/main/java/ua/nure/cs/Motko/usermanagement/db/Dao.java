@@ -4,18 +4,16 @@ import java.util.Collection;
 
 import ua.nure.cs.Motko.usermanagement.domain.User;
 
-//import ua.nure.cs.Motko.usermanagement.domain.User;
-
-public interface Dao <T> {
-	T create(T entity) throws DatabaseException;
+public interface Dao {
+	User create(User user) throws DatabaseException;
 	
-	void update(T entity) throws DatabaseException;
+	void update(User user) throws DatabaseException;
 	
-	T delete(T entity) throws DatabaseException;
+	void delete(User user) throws DatabaseException;
 	
-	T find(Long id) throws DatabaseException;
+	User find(Long id) throws DatabaseException;
 	
-	Collection <T> findAll() throws DatabaseException;
+	Collection findAll() throws DatabaseException;
 	
-	public void setConnectionFactory(ConnectionFactory connectionFactory);
+	void setConnectionFactory(ConnectionFactory connectionFactory);
 }

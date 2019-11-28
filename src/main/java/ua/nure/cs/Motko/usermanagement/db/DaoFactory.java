@@ -23,10 +23,6 @@ public abstract class DaoFactory {
 		}
 	}
 	
-	protected DaoFactory() {
-		
-	}
-	
 	public static synchronized DaoFactory getInstance() {
 		if(instance==null) {
 			Class<?> factoryClass;
@@ -40,9 +36,19 @@ public abstract class DaoFactory {
 		}
 		return instance;
 	}
+	
+	protected DaoFactory() {
+		
+	}
+	
+	public void init(Properties prop) {
+		properties = prop;
+		instance = null;
+	}
+	
 	protected ConnectionFactory getConnectionFactory() {
 		return new ConnectionFactoryImpl(properties);
 	}
-	public abstract Dao<User> getUserDao();
+	public abstract Dao getUserDao();
 	
 }
