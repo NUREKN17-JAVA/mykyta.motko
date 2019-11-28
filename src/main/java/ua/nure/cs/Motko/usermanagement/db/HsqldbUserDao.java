@@ -12,7 +12,7 @@ import java.util.LinkedList;
 
 import ua.nure.cs.Motko.usermanagement.domain.User;
 
-public class HsqldbUserDao implements Dao<User> {
+public class HsqldbUserDao implements Dao {
 	
 	private static final String UPDATE_QUERY = "UPDATE users SET firstname = ?, lastname = ?, dateofbirth = ? WHERE id = ?";
 	private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
@@ -91,27 +91,24 @@ public class HsqldbUserDao implements Dao<User> {
 	}
 
 	@Override
-	public User delete(User entity) throws DatabaseException {
-		
+	public void delete(User user) throws DatabaseException {
 		try {
-			Connection connection = connectionFactory.createConnection();
-			PreparedStatement statement = connection.prepareStatement(DELETE_QUERY);
-			statement.setLong(1, entity.getId());
-			int removedRows = statement.executeUpdate();
+            Connection connection = connectionFactory.createConnection();
+
+            PreparedStatement statement = connection.prepareStatement(DELETE_QUERY);
+            statement.setLong(1, user.getId());
+
+            int removedRows = statement.executeUpdate();
 
             if (removedRows != 1) {
                 throw new DatabaseException("Number of removed rows: " + removedRows);
             }
+
             connection.close();
-			statement.close();
-			
-		} catch (DatabaseException e) {
-			throw e;
-		}
-		catch (SQLException e) {
-			throw new DatabaseException(e);
-		}
-		return null;
+            statement.close();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
 	}
 
 	@Override
@@ -139,8 +136,8 @@ public class HsqldbUserDao implements Dao<User> {
 	}
 
 	@Override
-	public Collection<User> findAll() throws DatabaseException {
-		Collection<User> result = new LinkedList<User>();
+	public Collection findAll() throws DatabaseException {
+		Collection result = new LinkedList<User>();
 		
 		Connection connection = connectionFactory.createConnection();		
 		Statement statement;
