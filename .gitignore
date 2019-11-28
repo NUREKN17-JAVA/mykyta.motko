@@ -16,6 +16,7 @@ bin*
 .settings*
 .classpath
 .project
+.metadata
 .idea/
 *.txt
 *.iml
