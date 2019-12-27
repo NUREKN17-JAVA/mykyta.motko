@@ -10,15 +10,20 @@ import ua.nure.cs.Motko.usermanagement.domain.User;
 import ua.nure.cs.Motko.usermanagement.util.Messages;
 
 public class UserTableModel extends AbstractTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7275718006176609008L;
+	private static final String[] COLUMN_NAMES = {
+			Messages.getString("UserTableModel.id"),
+			Messages.getString("UserTableModel.first_name"),
+			Messages.getString("UserTableModel.last_name")};//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	private static final Class[] COLUMN_CLASSES= {Long.class,String.class,String.class};
+	private List<User> users = null;
 	
-	private static final String[] COLUMN_NAMES = {"ID", Messages.getString("UserTableModel.first_name"), Messages.getString("UserTableModel.last_name")}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	private static final Class[] COLUMN_CLASSES = {Long.class, String.class, String.class};
-	private List users = null;
-	
-	public UserTableModel(Collection users) {
-		this.users = new ArrayList(users);
+	public UserTableModel(Collection<User> users) {
+		this.users = new ArrayList<>(users);
 	}
-
 	@Override
 	public int getColumnCount() {
 		return COLUMN_NAMES.length;
@@ -28,22 +33,17 @@ public class UserTableModel extends AbstractTableModel {
 	public int getRowCount() {
 		return users.size();
 	}
-
-	public Class getColumnClass(int columnIndex) {
-		// TODO Auto-generated method stub
-		return COLUMN_CLASSES[columnIndex];
+	public Class<?> getColumnClass(int column) {
+		return COLUMN_CLASSES[column];
 	}
-
-	@Override
+	
 	public String getColumnName(int column) {
-		// TODO Auto-generated method stub
 		return COLUMN_NAMES[column];
 	}
-
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		User user = (User) users.get(rowIndex);
-		switch (columnIndex) {
+		switch(columnIndex) {
 		case 0:
 			return user.getId();
 		case 1:
@@ -53,5 +53,14 @@ public class UserTableModel extends AbstractTableModel {
 		}
 		return null;
 	}
-
+	public User getUser(int index) {
+		return(User) users.get(index);
+	}
+	public void addUsers(Collection<User> users) {
+		this.users.addAll(users);
+	}
+	public void clearUsers() {
+		this.users = new ArrayList<User>();
+	}
 }
+
